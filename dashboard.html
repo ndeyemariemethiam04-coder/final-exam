@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Quiz Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="logo">BrainBlast Quiz</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <button id="logout-btn" style="padding: 5px 10px; font-size: 0.8rem; background: #f44336;">Logout</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2>Your Dashboard</h2>
+        <p>Welcome, <span id="user-email">User</span>!</p>
+
+        <h3>Choose a Topic:</h3>
+        <div class="category-grid">
+            <div class="card" onclick="startQuiz('Maths')">✖️ Maths</div>
+            <div class="card" onclick="startQuiz('Physics')">⚛️ Physics</div>
+            <div class="card" onclick="startQuiz('History')">📜 History</div>
+            <div class="card" onclick="startQuiz('Geography')">🌍 Geography</div>
+            <div class="card" onclick="startQuiz('WebDev')">💻 WebDev</div>
+        </div>
+
+        <h3>Your Recent Scores</h3>
+        <ul id="score-list" style="text-align: left;">
+            <!-- Scores will appear here dynamically -->
+            <li>Loading scores...</li>
+        </ul>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

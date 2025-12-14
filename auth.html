@@ -4,28 +4,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Platform - Home</title>
+    <title>Login - Quiz Platform</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Supabase CDN -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
-    <nav id="navbar">
+    <nav>
         <div class="logo">BrainBlast Quiz</div>
         <div class="nav-links">
             <a href="index.html">Home</a>
-            <a href="auth.html" id="login-link">Login</a>
-            <a href="dashboard.html" id="dash-link" style="display:none;">Dashboard</a>
         </div>
     </nav>
 
     <div class="container">
-        <h1>Welcome to BrainBlast</h1>
-        <p>Test your knowledge in Physics, History, Geography, Maths, and more.</p>
-        <p>Login to track your scores and compete!</p>
+        <h2>Account Access</h2>
+        <input type="email" id="email" placeholder="Enter Email">
+        <input type="password" id="password" placeholder="Enter Password">
         <br>
-        <a href="auth.html"><button>Get Started</button></a>
+        <button id="login-btn">Log In</button>
+        <button id="signup-btn" style="background-color: #2196F3;">Sign Up</button>
+        <p id="auth-message"></p>
     </div>
 
     <script src="config.js"></script>

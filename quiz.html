@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taking Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="logo">BrainBlast Quiz</div>
+        <div class="nav-links">
+            <a href="dashboard.html">Exit Quiz</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 id="quiz-category-title">Topic</h2>
+        <div id="quiz-container">
+            <p id="question-text">Loading Question...</p>
+            <div id="options-container" style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="option-btn" id="btn-A">A</button>
+                <button class="option-btn" id="btn-B">B</button>
+                <button class="option-btn" id="btn-C">C</button>
+                <button class="option-btn" id="btn-D">D</button>
+            </div>
+            <p id="feedback-text" style="height: 20px; font-weight: bold;"></p>
+        </div>
+        <div id="result-container" style="display: none;">
+            <h3>Quiz Complete!</h3>
+            <p>Your Score: <span id="final-score">0</span></p>
+            <a href="dashboard.html"><button>Back to Dashboard</button></a>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
