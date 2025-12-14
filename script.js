@@ -111,7 +111,7 @@ checkSession();
 // --- 4. DASHBOARD LOGIC ---
 // This function is called by the HTML onclick="startQuiz('Maths')"
 window.startQuiz = function (category) {
-    window.location.href = `quiz.html ? category = ${category} `;
+    window.location.href = `quiz.html?category=${category}`;
 }
 
 async function loadScores(userId) {
@@ -131,10 +131,10 @@ async function loadScores(userId) {
         list.innerHTML = '<li>No quizzes played yet. Go play one!</li>';
     } else {
         list.innerHTML = data.map(s =>
-            `< li style = "padding: 5px; border-bottom: 1px solid #333;" >
-    <strong>${s.category}</strong>: ${s.score}%
-        <span style="font-size: 0.8em; color: #888;">(${new Date(s.date_played).toLocaleDateString()})</span>
-            </li > `
+            `<li style="padding: 5px; border-bottom: 1px solid #333;">
+                <strong>${s.category}</strong>: ${s.score}% 
+                <span style="font-size: 0.8em; color: #888;">(${new Date(s.date_played).toLocaleDateString()})</span>
+            </li>`
         ).join('');
     }
 }
@@ -178,15 +178,15 @@ if (isQuiz) {
         // Reset buttons
         const btns = ['A', 'B', 'C', 'D'];
         btns.forEach(opt => {
-            const btn = document.getElementById(`btn - ${opt} `);
+            const btn = document.getElementById(`btn-${opt}`);
             // Map option_a, option_b... dynamically
-            btn.textContent = q[`option_${opt.toLowerCase()} `];
+            btn.textContent = q[`option_${opt.toLowerCase()}`];
             btn.style.backgroundColor = '#2c2c2c'; // Dark grey default
             btn.style.border = '1px solid #555';
             btn.disabled = false;
         });
 
-        document.getElementById('feedback-text').textContent = `Question ${currentQuestionIndex + 1} of ${questions.length} `;
+        document.getElementById('feedback-text').textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
     }
 
     // Attach click events to the 4 buttons
@@ -202,7 +202,7 @@ if (isQuiz) {
             } else {
                 e.target.style.backgroundColor = '#f44336'; // Red
                 // Highlight the correct one so they learn
-                document.getElementById(`btn - ${correctOption} `).style.backgroundColor = '#4caf50';
+                document.getElementById(`btn-${correctOption}`).style.backgroundColor = '#4caf50';
             }
 
             // Lock buttons
