@@ -1,8 +1,23 @@
-/* style.css */
+/* style.css - Fully Responsive Version */
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e1e;
+    --card-hover: #2c2c2c;
+    --text-main: #e0e0e0;
+    --accent: #4caf50;
+    --accent-hover: #45a049;
+    --danger: #f44336;
+}
+
+* {
+    box-sizing: border-box;
+    /* Crucial for responsiveness */
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #121212;
-    color: #e0e0e0;
+    background-color: var(--bg-color);
+    color: var(--text-main);
     margin: 0;
     padding: 0;
     display: flex;
@@ -10,6 +25,7 @@ body {
     min-height: 100vh;
 }
 
+/* --- Navigation --- */
 nav {
     background-color: #1f1f1f;
     padding: 1rem;
@@ -17,70 +33,154 @@ nav {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    flex-wrap: wrap;
+    /* Allows wrapping on small screens */
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
 }
 
 nav a {
     color: #fff;
     text-decoration: none;
-    margin-left: 15px;
     font-weight: bold;
+    transition: color 0.3s;
 }
 
 nav a:hover {
-    color: #4caf50;
+    color: var(--accent);
 }
 
+/* --- Main Container --- */
 .container {
+    width: 90%;
+    /* Responsive width */
     max-width: 800px;
+    /* Maximum desktop width */
     margin: 2rem auto;
     padding: 2rem;
-    background-color: #1e1e1e;
+    background-color: var(--card-bg);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     text-align: center;
 }
 
-button {
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    margin: 5px;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
+/* --- Inputs & Buttons --- */
 input {
-    padding: 10px;
+    padding: 12px;
     margin: 10px 0;
-    width: 80%;
+    width: 100%;
+    /* Full width on mobile */
+    max-width: 400px;
+    /* Limit on desktop */
     border-radius: 4px;
     border: 1px solid #333;
     background-color: #2c2c2c;
     color: white;
+    font-size: 1rem;
 }
 
+button {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 5px;
+    transition: background 0.3s, transform 0.1s;
+}
+
+button:hover {
+    background-color: var(--accent-hover);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* --- Dashboard Grid --- */
 .category-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    /* Auto-fit magic: fits as many columns as possible, min width 140px */
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 1rem;
     margin-top: 2rem;
 }
 
 .card {
-    background: #2c2c2c;
-    padding: 1.5rem;
+    background: var(--card-hover);
+    padding: 2rem 1rem;
     border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s, background 0.2s;
+    border: 1px solid #333;
+    font-weight: bold;
+    font-size: 1.1rem;
 }
 
 .card:hover {
     transform: translateY(-5px);
     background: #333;
+    border-color: var(--accent);
+}
+
+/* --- Quiz Interface --- */
+.option-btn {
+    width: 100%;
+    text-align: left;
+    margin: 5px 0;
+    padding: 15px;
+}
+
+#question-text {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+/* --- RESPONSIVE MEDIA QUERIES (Mobile Rules) --- */
+@media (max-width: 600px) {
+    nav {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: space-around;
+        padding-top: 10px;
+        border-top: 1px solid #333;
+    }
+
+    .container {
+        width: 95%;
+        /* Use more screen real estate */
+        padding: 1rem;
+        /* Less padding inside */
+        margin: 1rem auto;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .card {
+        padding: 1.5rem;
+        /* Smaller cards */
+    }
 }
