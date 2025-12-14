@@ -27,7 +27,6 @@ if (isAuthPage) {
     const message = document.getElementById('auth-message');
 
     async function handleAuth(type) {
-        console.log("Handling auth:", type);
         const email = emailInput.value;
         const password = passInput.value;
 
@@ -40,29 +39,35 @@ if (isAuthPage) {
         message.style.color = "yellow";
 
         let error, data;
-        try {
-            if (type === 'signup') {
-                const result = await _supabase.auth.signUp({ email, password });
-                error = result.error;
-                if (!error) {
-                    message.textContent = "Success! Check your email to confirm account.";
-                    message.style.color = "#4caf50";
-                }
-            } else {
-                const result = await _supabase.auth.signInWithPassword({ email, password });
-                error = result.error;
-                if (!error) {
-                    // Redirect on success
-                    window.location.href = 'dashboard.html';
-                }
+
+        if (type === 'signup') {
+            // Updated: Attempt signup
+            const result = await _supabase.auth.signUp({ email, password });
+            error = result.error;
+            data = result.data;
+
+            // If signup successful and we have a session (email confirm disabled), redirect
+            if (!error && data.session) {
+                window.location.href = 'dashboard.html';
+                return;
             }
-        } catch (err) {
-            console.error("Unexpected auth error:", err);
-            error = { message: "Unexpected error occurred." };
+
+            if (!error && !data.session) {
+                message.textContent = "Success! Please check your email to confirm.";
+                message.style.color = "#4caf50";
+                return;
+            }
+        } else {
+            // Login logic
+            const result = await _supabase.auth.signInWithPassword({ email, password });
+            error = result.error;
+            if (!error) {
+                window.location.href = 'dashboard.html';
+                return;
+            }
         }
 
         if (error) {
-            console.error("Auth error:", error);
             message.textContent = "Error: " + error.message;
             message.style.color = "red";
         }
