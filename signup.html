@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Quiz Platform</title>
+    <title>Sign Up - BrainBlast</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -14,17 +14,20 @@
         <div class="logo">BrainBlast Quiz</div>
         <div class="nav-links">
             <a href="index.html">Home</a>
+            <a href="login.html">Login</a>
         </div>
     </nav>
 
     <div class="container">
-        <h2>Account Access</h2>
+        <h2>Create Account</h2>
         <input type="email" id="email" placeholder="Enter Email">
-        <input type="password" id="password" placeholder="Enter Password">
+        <input type="password" id="password" placeholder="Create Password">
         <br>
-        <button id="login-btn">Log In</button>
-        <button id="signup-btn" style="background-color: #2196F3;">Sign Up</button>
+        <button id="signup-submit-btn" style="background-color: #2196F3;">Sign Up</button>
         <p id="auth-message"></p>
+        <p style="font-size: 0.9rem; margin-top: 15px;">
+            Already have an account? <a href="login.html" style="color: #2196F3;">Log in here</a>
+        </p>
     </div>
 
     <script src="config.js"></script>

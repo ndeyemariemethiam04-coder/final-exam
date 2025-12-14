@@ -1,3 +1,4 @@
+
 // --- INITIALIZATION ---
 // Access Supabase using the global variable provided by the CDN
 const { createClient } = supabase;
@@ -6,75 +7,66 @@ const { createClient } = supabase;
 // Ensure SUPABASE_URL and SUPABASE_KEY are defined in config.js
 const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// --- ROUTING / PAGE DETECTION (More robust than path checking) ---
-const loginBtn = document.getElementById('login-btn');
-const signupBtn = document.getElementById('signup-btn');
-const scoreList = document.getElementById('score-list');
-const quizContainer = document.getElementById('quiz-container');
-const homeLoginLink = document.getElementById('login-link');
+// --- ROUTING LOGIC ---
+const path = window.location.pathname;
+const isLoginPage = path.includes('login.html');
+const isSignupPage = path.includes('signup.html');
+const isDashboard = path.includes('dashboard.html');
+const isQuiz = path.includes('quiz.html');
+const isHome = path.includes('index.html') || path === '/' || path.endsWith('/');
 
-const isAuthPage = !!(loginBtn && signupBtn);
-const isDashboard = !!scoreList;
-const isQuiz = !!quizContainer;
-const isHome = !!homeLoginLink;
+// --- 1. AUTHENTICATION (Split Logic) ---
 
-console.log("Page detection:", { isAuthPage, isDashboard, isQuiz, isHome });
-
-// --- 1. AUTHENTICATION (Login & Sign Up) ---
-if (isAuthPage) {
+// Common Auth Handler
+async function handleAuth(type) {
     const emailInput = document.getElementById('email');
     const passInput = document.getElementById('password');
     const message = document.getElementById('auth-message');
 
-    async function handleAuth(type) {
-        const email = emailInput.value;
-        const password = passInput.value;
+    const email = emailInput.value;
+    const password = passInput.value;
 
-        if (!email || !password) {
-            message.textContent = "Please enter both email and password.";
+    if (!email || !password) {
+        message.textContent = "Please enter both email and password.";
+        return;
+    }
+
+    message.textContent = "Processing...";
+
+    let error, data;
+
+    if (type === 'signup') {
+        const result = await _supabase.auth.signUp({ email, password });
+        error = result.error;
+        data = result.data;
+
+        if (!error && data.session) {
+            window.location.href = 'dashboard.html';
             return;
         }
-
-        message.textContent = "Processing...";
-        message.style.color = "yellow";
-
-        let error, data;
-
-        if (type === 'signup') {
-            // Updated: Attempt signup
-            const result = await _supabase.auth.signUp({ email, password });
-            error = result.error;
-            data = result.data;
-
-            // If signup successful and we have a session (email confirm disabled), redirect
-            if (!error && data.session) {
-                window.location.href = 'dashboard.html';
-                return;
-            }
-
-            if (!error && !data.session) {
-                message.textContent = "Success! Please check your email to confirm.";
-                message.style.color = "#4caf50";
-                return;
-            }
-        } else {
-            // Login logic
-            const result = await _supabase.auth.signInWithPassword({ email, password });
-            error = result.error;
-            if (!error) {
-                window.location.href = 'dashboard.html';
-                return;
-            }
-        }
-
-        if (error) {
-            message.textContent = "Error: " + error.message;
-            message.style.color = "red";
+    } else {
+        // Login
+        const result = await _supabase.auth.signInWithPassword({ email, password });
+        error = result.error;
+        if (!error) {
+            window.location.href = 'dashboard.html';
+            return;
         }
     }
 
-    loginBtn.addEventListener('click', () => handleAuth('login'));
-    signupBtn.addEventListener('click', () => handleAuth('signup'));
+    if (error) {
+        message.textContent = "Error: " + error.message;
+        message.style.color = "red";
+    }
+}
+
+// Attach Listeners based on Page
+if (isLoginPage) {
+    document.getElementById('login-submit-btn').addEventListener('click', () => handleAuth('login'));
+}
+
+if (isSignupPage) {
+    document.getElementById('signup-submit-btn').addEventListener('click', () => handleAuth('signup'));
 }
 
 // --- 2. LOGOUT (Available globally if button exists) ---
@@ -119,7 +111,7 @@ checkSession();
 // --- 4. DASHBOARD LOGIC ---
 // This function is called by the HTML onclick="startQuiz('Maths')"
 window.startQuiz = function (category) {
-    window.location.href = `quiz.html?category=${category}`;
+    window.location.href = `quiz.html ? category = ${category} `;
 }
 
 async function loadScores(userId) {
@@ -139,10 +131,10 @@ async function loadScores(userId) {
         list.innerHTML = '<li>No quizzes played yet. Go play one!</li>';
     } else {
         list.innerHTML = data.map(s =>
-            `<li style="padding: 5px; border-bottom: 1px solid #333;">
-                <strong>${s.category}</strong>: ${s.score}% 
-                <span style="font-size: 0.8em; color: #888;">(${new Date(s.date_played).toLocaleDateString()})</span>
-            </li>`
+            `< li style = "padding: 5px; border-bottom: 1px solid #333;" >
+    <strong>${s.category}</strong>: ${s.score}%
+        <span style="font-size: 0.8em; color: #888;">(${new Date(s.date_played).toLocaleDateString()})</span>
+            </li > `
         ).join('');
     }
 }
@@ -186,15 +178,15 @@ if (isQuiz) {
         // Reset buttons
         const btns = ['A', 'B', 'C', 'D'];
         btns.forEach(opt => {
-            const btn = document.getElementById(`btn-${opt}`);
+            const btn = document.getElementById(`btn - ${opt} `);
             // Map option_a, option_b... dynamically
-            btn.textContent = q[`option_${opt.toLowerCase()}`];
+            btn.textContent = q[`option_${opt.toLowerCase()} `];
             btn.style.backgroundColor = '#2c2c2c'; // Dark grey default
             btn.style.border = '1px solid #555';
             btn.disabled = false;
         });
 
-        document.getElementById('feedback-text').textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+        document.getElementById('feedback-text').textContent = `Question ${currentQuestionIndex + 1} of ${questions.length} `;
     }
 
     // Attach click events to the 4 buttons
@@ -210,7 +202,7 @@ if (isQuiz) {
             } else {
                 e.target.style.backgroundColor = '#f44336'; // Red
                 // Highlight the correct one so they learn
-                document.getElementById(`btn-${correctOption}`).style.backgroundColor = '#4caf50';
+                document.getElementById(`btn - ${correctOption} `).style.backgroundColor = '#4caf50';
             }
 
             // Lock buttons
