@@ -36,7 +36,26 @@ async function handleAuth(type) {
     let error, data;
 
     if (type === 'signup') {
-        const result = await _supabase.auth.signUp({ email, password });
+        // 1. Get the name
+        const nameInput = document.getElementById('full-name');
+        const fullName = nameInput ? nameInput.value : '';
+
+        if (!fullName) {
+            message.textContent = "Please enter your full name.";
+            return;
+        }
+
+        // 2. Sign up with Metadata (saving the name)
+        const result = await _supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    full_name: fullName // This saves the name to the user profile
+                }
+            }
+        });
+
         error = result.error;
         data = result.data;
 
@@ -96,9 +115,12 @@ async function checkSession() {
         if (dashLink) dashLink.style.display = 'inline';
     }
 
-    // If on Dashboard, show user info and load scores
+    // If on Dashboard, show user Name (or email if name is missing)
     if (isDashboard && session) {
-        document.getElementById('user-email').textContent = session.user.email;
+        // Try to get full_name from metadata, otherwise fallback to email
+        const displayName = session.user.user_metadata.full_name || session.user.email;
+        document.getElementById('user-email').textContent = displayName;
+
         loadScores(session.user.id);
     }
 
