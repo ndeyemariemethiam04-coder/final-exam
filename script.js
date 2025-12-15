@@ -201,10 +201,15 @@ if (isQuiz) {
         const btns = ['A', 'B', 'C', 'D'];
         btns.forEach(opt => {
             const btn = document.getElementById(`btn-${opt}`);
-            // Map option_a, option_b... dynamically
+            // Set text
             btn.textContent = q[`option_${opt.toLowerCase()}`];
-            btn.style.backgroundColor = '#2c2c2c'; // Dark grey default
-            btn.style.border = '1px solid #555';
+
+            // --- FIX: Remove hardcoded Dark Mode styles ---
+            // We set these to empty strings so the CSS (style.css) takes control
+            btn.style.backgroundColor = '';
+            btn.style.border = '';
+            btn.style.color = '';
+
             btn.disabled = false;
         });
 
@@ -214,17 +219,25 @@ if (isQuiz) {
     // Attach click events to the 4 buttons
     document.querySelectorAll('.option-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const selectedOption = e.target.id.split('-')[1]; // Extracts 'A', 'B', 'C' or 'D'
+            const selectedOption = e.target.id.split('-')[1];
             const correctOption = questions[currentQuestionIndex].correct_answer;
 
             // Visual Feedback
             if (selectedOption === correctOption) {
                 score++;
-                e.target.style.backgroundColor = '#4caf50'; // Green
+                e.target.style.backgroundColor = '#2ed573'; // New Soft Green
+                e.target.style.color = '#fff';              // Force White Text
+                e.target.style.borderColor = '#2ed573';
             } else {
-                e.target.style.backgroundColor = '#f44336'; // Red
-                // Highlight the correct one so they learn
-                document.getElementById(`btn-${correctOption}`).style.backgroundColor = '#4caf50';
+                e.target.style.backgroundColor = '#ff4757'; // New Soft Red
+                e.target.style.color = '#fff';              // Force White Text
+                e.target.style.borderColor = '#ff4757';
+
+                // Highlight the correct one
+                const correctBtn = document.getElementById(`btn-${correctOption}`);
+                correctBtn.style.backgroundColor = '#2ed573';
+                correctBtn.style.color = '#fff';
+                correctBtn.style.borderColor = '#2ed573';
             }
 
             // Lock buttons
